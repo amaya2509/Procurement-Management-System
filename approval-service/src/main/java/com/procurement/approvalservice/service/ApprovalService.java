@@ -7,6 +7,7 @@ import com.procurement.approvalservice.repository.ApprovalRepository;
 import com.procurement.common.exception.BusinessRuleException;
 import com.procurement.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class ApprovalService {
     private final ApprovalRepository approvalRepository;
     private final PRServiceClient prClient;
     private final POServiceClient poClient;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public Approval createApprovalRequest(String entityType, String entityId, String requestedBy) {
         Approval approval = Approval.builder()
@@ -29,7 +31,12 @@ public class ApprovalService {
                 .requestedBy(requestedBy)
                 .createdAt(new Date())
                 .build();
-        return approvalRepository.save(approval);
+        Approval savedApproval = approvalRepository.save(approval);
+        
+        // Publish real-time notification
+        messagingTemplate.convertAndSend("/topic/approvals", "New Approval Request for " + entityType + " " + entityId);
+        
+        return savedApproval;
     }
 
     public List<Approval> getPendingApprovals() {
@@ -72,6 +79,9 @@ public class ApprovalService {
         } else if (approval.getEntityType().equalsIgnoreCase("PO")) {
             poClient.updatePOStatus(approval.getEntityId(), newStatus, rejectReason, token);
         }
+
+        // Publish real-time notification
+        messagingTemplate.convertAndSend("/topic/approvals", "Approval Request " + approval.getEntityId() + " was " + newStatus);
 
         return savedApproval;
     }
