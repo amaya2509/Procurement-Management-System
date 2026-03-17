@@ -20,6 +20,7 @@
 		<module>eureka-server</module>
 		<module>api-gateway</module>
 		<module>common-library</module>
+		<module>user-service</module>
 	</modules>
 
 	<properties>
