@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 
 import UsersPage from './pages/UsersPage';
 import SuppliersPage from './pages/SuppliersPage';
+import PRListPage from './pages/PRListPage';
+import PRCreatePage from './pages/PRCreatePage';
 
 function App() {
   return (
@@ -17,7 +19,8 @@ function App() {
         <Route element={<AuthGuard />}>
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/pr" element={<div className="text-xl font-bold">Purchase Requests Coming Soon</div>} />
+            <Route path="/pr" element={<PRListPage />} />
+            <Route path="/pr/new" element={<PRCreatePage />} />
             <Route path="/po" element={<div className="text-xl font-bold">Purchase Orders Coming Soon</div>} />
             <Route path="/approvals" element={<div className="text-xl font-bold">Approvals Coming Soon</div>} />
             <Route path="/suppliers" element={<SuppliersPage />} />
