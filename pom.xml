@@ -22,6 +22,7 @@
 		<module>common-library</module>
 		<module>user-service</module>
 		<module>supplier-service</module>
+		<module>pr-service</module>
 	</modules>
 
 	<properties>
