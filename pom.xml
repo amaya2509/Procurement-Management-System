@@ -24,6 +24,7 @@
 		<module>supplier-service</module>
 		<module>pr-service</module>
 		<module>po-service</module>
+		<module>approval-service</module>
 	</modules>
 
 	<properties>
