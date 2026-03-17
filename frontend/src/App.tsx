@@ -8,6 +8,8 @@ import UsersPage from './pages/UsersPage';
 import SuppliersPage from './pages/SuppliersPage';
 import PRListPage from './pages/PRListPage';
 import PRCreatePage from './pages/PRCreatePage';
+import POListPage from './pages/POListPage';
+import POCreatePage from './pages/POCreatePage';
 
 function App() {
   return (
@@ -21,7 +23,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/pr" element={<PRListPage />} />
             <Route path="/pr/new" element={<PRCreatePage />} />
-            <Route path="/po" element={<div className="text-xl font-bold">Purchase Orders Coming Soon</div>} />
+            <Route path="/po" element={<POListPage />} />
+            <Route path="/po/new" element={<POCreatePage />} />
             <Route path="/approvals" element={<div className="text-xl font-bold">Approvals Coming Soon</div>} />
             <Route path="/suppliers" element={<SuppliersPage />} />
             <Route path="/users" element={<UsersPage />} />
