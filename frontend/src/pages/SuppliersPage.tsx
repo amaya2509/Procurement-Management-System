@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../lib/api';
-import { Plus, Search, Edit2, MapPin, Phone, Building, Calendar, Star } from 'lucide-react';
+import { Plus, Search, Edit2, MapPin, Phone, Building, Calendar, Star, X, Save, Mail } from 'lucide-react';
 
 interface Supplier {
   id: string;
@@ -16,6 +16,19 @@ export const SuppliersPage: React.FC = () => {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Modal State
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [newSupplier, setNewSupplier] = useState({
+    code: '',
+    name: '',
+    address: '',
+    contactNumber: '',
+    email: '',
+    status: 'ACTIVE'
+  });
 
   useEffect(() => {
     fetchSuppliers();
@@ -46,6 +59,22 @@ export const SuppliersPage: React.FC = () => {
     }
   };
 
+  const handleAddSupplier = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSubmitting(true);
+    try {
+      await api.post('/suppliers', newSupplier);
+      setIsAddModalOpen(false);
+      fetchSuppliers(); // Refresh list
+      setNewSupplier({ code: '', name: '', address: '', contactNumber: '', email: '', status: 'ACTIVE' });
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to onboard supplier');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -53,7 +82,10 @@ export const SuppliersPage: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Supplier Directory</h1>
           <p className="text-sm text-slate-500 mt-1">Manage vendor relationships, contacts, and approval statuses.</p>
         </div>
-        <button className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none transition-all hover:shadow-md hover:-translate-y-0.5">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none transition-all hover:shadow-md hover:-translate-y-0.5"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Onboard Supplier
         </button>
@@ -158,6 +190,82 @@ export const SuppliersPage: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Add Supplier Modal */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50">
+              <h3 className="text-lg font-bold text-slate-900 flex items-center">
+                <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center mr-3">
+                  <Plus className="h-5 w-5" />
+                </div>
+                Onboard New Supplier
+              </h3>
+              <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto">
+              {error && (
+                <div className="mb-6 bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100 flex items-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-600 mr-2"></div>
+                  {error}
+                </div>
+              )}
+              
+              <form id="addSupplierForm" onSubmit={handleAddSupplier} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Supplier Name *</label>
+                    <input type="text" required value={newSupplier.name} onChange={e => setNewSupplier({...newSupplier, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Supplier Code *</label>
+                    <input type="text" required value={newSupplier.code} onChange={e => setNewSupplier({...newSupplier, code: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Email *</label>
+                    <input type="email" required value={newSupplier.email} onChange={e => setNewSupplier({...newSupplier, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Contact Number *</label>
+                    <input type="text" required value={newSupplier.contactNumber} onChange={e => setNewSupplier({...newSupplier, contactNumber: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Address *</label>
+                  <textarea required rows={2} value={newSupplier.address} onChange={e => setNewSupplier({...newSupplier, address: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"></textarea>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Initial Status</label>
+                  <select required value={newSupplier.status} onChange={e => setNewSupplier({...newSupplier, status: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 transition-colors">
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                    <option value="BLACKLISTED">BLACKLISTED</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            
+            <div className="p-6 border-t border-slate-100 flex justify-end gap-3 bg-slate-50/50 mt-auto">
+              <button type="button" onClick={() => setIsAddModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-xl shadow-sm hover:bg-slate-50 transition-colors">
+                Cancel
+              </button>
+              <button type="submit" form="addSupplierForm" disabled={submitting} className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed">
+                {submitting ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div> : <Save className="h-4 w-4 mr-2" />}
+                Save Supplier
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
