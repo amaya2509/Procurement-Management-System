@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../lib/api';
 import { Search, CheckCircle, XCircle, FileText, ShoppingCart, Clock } from 'lucide-react';
-import { useAuthStore } from '../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 interface Approval {
   id: string;
@@ -17,6 +17,7 @@ export const ApprovalsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchApprovals();
@@ -133,7 +134,7 @@ export const ApprovalsPage: React.FC = () => {
                 </tr>
               ) : (
                 filteredApprovals.map((approval) => (
-                  <tr key={approval.id} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={approval.id} onClick={() => navigate(`/approvals/${approval.id}`)} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className={`flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-lg border ${

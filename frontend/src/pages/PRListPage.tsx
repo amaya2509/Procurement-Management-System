@@ -150,7 +150,7 @@ export const PRListPage: React.FC = () => {
                 </tr>
               ) : (
                 filteredPRs.map((pr) => (
-                  <tr key={pr.prNumber} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={pr.prNumber} onClick={() => navigate(`/pr/${pr.prNumber}`)} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-lg bg-primary-50 border border-primary-100">

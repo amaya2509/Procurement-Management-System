@@ -137,7 +137,7 @@ export const POListPage: React.FC = () => {
                 </tr>
               ) : (
                 filteredPOs.map((po) => (
-                  <tr key={po.poNumber} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={po.poNumber} onClick={() => navigate(`/po/${po.poNumber}`)} className="hover:bg-slate-50/80 transition-colors cursor-pointer">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-lg bg-emerald-50 border border-emerald-100">
