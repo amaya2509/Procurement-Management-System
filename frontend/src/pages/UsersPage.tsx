@@ -6,27 +6,27 @@ import { useAuthStore } from '../store/useAuthStore';
 interface Branch {
   id: string;
   code: string;
-  name: string;
+  branchName: string;
 }
 
 interface Department {
   id: string;
   code: string;
-  name: string;
+  departmentName: string;
 }
 
 interface Role {
   id: string;
-  name: string;
+  roleName: string;
 }
 
 interface User {
   id: string;
   username: string;
   email: string;
-  role: Role;
-  branch: Branch;
-  department: Department;
+  roleId: string;
+  branchId: string;
+  departmentId: string;
   active: boolean;
 }
 
@@ -197,16 +197,16 @@ export const UsersPage: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center text-sm text-slate-700 font-medium">
                         <Shield className="h-4 w-4 mr-1.5 text-slate-400" />
-                        {user.role?.name || 'N/A'}
+                        {availableRoles.find(r => r.id === user.roleId)?.roleName || 'N/A'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
                         <span className="text-sm font-medium text-slate-700 flex items-center">
                           <Building2 className="h-4 w-4 mr-1.5 text-slate-400" />
-                          {user.branch?.name || 'No Branch'}
+                          {availableBranches.find(b => b.id === user.branchId)?.branchName || 'No Branch'}
                         </span>
-                        <span className="text-xs text-slate-500 ml-5.5">{user.department?.name || 'No Dept'}</span>
+                        <span className="text-xs text-slate-500 ml-5.5">{availableDepartments.find(d => d.id === user.departmentId)?.departmentName || 'No Dept'}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -278,7 +278,7 @@ export const UsersPage: React.FC = () => {
                     <select required value={newUser.roleId} onChange={e => setNewUser({...newUser, roleId: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 transition-colors">
                       <option value="" disabled>Select Role</option>
                       {availableRoles.map(r => (
-                         <option key={r.id} value={r.id}>{r.name || (r as any).roleName}</option>
+                         <option key={r.id} value={r.id}>{r.roleName || (r as any).roleName}</option>
                       ))}
                     </select>
                   </div>
@@ -287,7 +287,7 @@ export const UsersPage: React.FC = () => {
                     <select required value={newUser.branchId} onChange={e => setNewUser({...newUser, branchId: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 transition-colors">
                       <option value="" disabled>Select Branch</option>
                       {availableBranches.map(b => (
-                         <option key={b.id} value={b.id}>{b.name || (b as any).branchName}</option>
+                         <option key={b.id} value={b.id}>{b.branchName || (b as any).branchName}</option>
                       ))}
                     </select>
                   </div>
@@ -298,7 +298,7 @@ export const UsersPage: React.FC = () => {
                   <select required value={newUser.departmentId} onChange={e => setNewUser({...newUser, departmentId: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 transition-colors">
                     <option value="" disabled>Select Department</option>
                     {availableDepartments.map(d => (
-                        <option key={d.id} value={d.id}>{d.name || (d as any).departmentName}</option>
+                        <option key={d.id} value={d.id}>{d.departmentName || (d as any).departmentName}</option>
                     ))}
                   </select>
                 </div>

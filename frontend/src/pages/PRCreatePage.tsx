@@ -17,7 +17,7 @@ interface PRLine {
 interface Supplier {
   id: string;
   supplierName: string;
-  isActive: boolean;
+  active: boolean;
 }
 
 interface ReferenceItem {
@@ -66,7 +66,7 @@ export const PRCreatePage: React.FC = () => {
           api.get('/users/reference/branches'),
           api.get('/users/reference/departments'),
         ]);
-        const activeSuppliers = (suppRes.data.data || []).filter((s: Supplier) => s.isActive);
+        const activeSuppliers = (suppRes.data.data || []).filter((s: Supplier) => s.active);
         setSuppliers(activeSuppliers);
         setBranches(branchRes.data.data || []);
         setDepartments(deptRes.data.data || []);

@@ -9,7 +9,7 @@ interface Supplier {
   phone: string;
   email: string;
   currency: string;
-  isActive: boolean;
+  active: boolean;
   createdAt: string;
 }
 
@@ -29,7 +29,7 @@ export const SuppliersPage: React.FC = () => {
     phone: '',
     email: '',
     currency: 'LKR',
-    isActive: true
+    active: true
   });
 
   useEffect(() => {
@@ -53,8 +53,8 @@ export const SuppliersPage: React.FC = () => {
   );
 
   // ✅ STATUS FROM BOOLEAN
-  const getStatusColor = (isActive: boolean) => {
-    return isActive
+  const getStatusColor = (active: boolean) => {
+    return active
       ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
       : 'bg-slate-100 text-slate-800 border-slate-200';
   };
@@ -75,7 +75,7 @@ export const SuppliersPage: React.FC = () => {
         phone: '',
         email: '',
         currency: 'LKR',
-        isActive: true
+        active: true
       });
 
     } catch (err: any) {
@@ -198,8 +198,8 @@ export const SuppliersPage: React.FC = () => {
 
                     {/* STATUS */}
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border ${getStatusColor(supplier.isActive)}`}>
-                        {supplier.isActive ? 'ACTIVE' : 'INACTIVE'}
+                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border ${getStatusColor(supplier.active)}`}>
+                        {supplier.active ? 'ACTIVE' : 'INACTIVE'}
                       </span>
                     </td>
 
@@ -285,8 +285,8 @@ export const SuppliersPage: React.FC = () => {
                 />
 
                 <select
-                  value={newSupplier.isActive ? 'ACTIVE' : 'INACTIVE'}
-                  onChange={e => setNewSupplier({...newSupplier, isActive: e.target.value === 'ACTIVE'})}
+                  value={newSupplier.active ? 'ACTIVE' : 'INACTIVE'}
+                  onChange={e => setNewSupplier({...newSupplier, active: e.target.value === 'ACTIVE'})}
                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl"
                 >
                   <option value="ACTIVE">ACTIVE</option>

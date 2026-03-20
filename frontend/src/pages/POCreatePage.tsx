@@ -24,7 +24,7 @@ interface PRPreview {
 interface Supplier {
   id: string;
   supplierName: string;
-  isActive: boolean;
+  active: boolean;
 }
 
 interface POLine {
@@ -76,8 +76,8 @@ export const POCreatePage: React.FC = () => {
       const approvedPRs = (prsRes.data.data || []).filter((pr: PRPreview) => pr.status === 'APPROVED');
       setAvailablePRs(approvedPRs);
 
-      // Use boolean isActive (not string 'ACTIVE')
-      const activeSups = (supsRes.data.data || []).filter((s: Supplier) => s.isActive === true);
+      // Use boolean active (not string 'ACTIVE')
+      const activeSups = (supsRes.data.data || []).filter((s: Supplier) => s.active === true);
       setSuppliers(activeSups);
     } catch (err) {
       console.error('Failed to fetch lookups', err);
