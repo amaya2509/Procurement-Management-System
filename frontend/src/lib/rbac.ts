@@ -6,9 +6,9 @@
 // ─── Role Constants ───────────────────────────────────────────────────────────
 export const ROLES = {
   ADMIN: 'ADMIN',
-  PR_REQUESTOR: 'PR_REQUESTOR',
+  PR_REQUESTOR: 'PR_REQUESTER',
   PR_APPROVER: 'PR_APPROVER',
-  PO_REQUESTOR: 'PO_REQUESTOR',
+  PO_REQUESTOR: 'PO_REQUESTER',
   PO_APPROVER: 'PO_APPROVER',
 } as const;
 

@@ -32,9 +32,11 @@ public class DataSeeder implements CommandLineRunner {
         // Seed Roles
         if (roleRepository.count() == 0) {
             Role admin = new Role(null, "ADMIN", Arrays.asList("ALL"));
-            Role requester = new Role(null, "REQUESTER", Arrays.asList("CREATE_PR", "VIEW_PR", "CREATE_PO", "VIEW_PO"));
-            Role approver = new Role(null, "APPROVER", Arrays.asList("APPROVE_PR", "REJECT_PR", "APPROVE_PO", "REJECT_PO", "VIEW_PR", "VIEW_PO"));
-            roleRepository.saveAll(Arrays.asList(admin, requester, approver));
+            Role pr_requester = new Role(null, "PR_REQUESTER", Arrays.asList("CREATE_PR", "VIEW_PR"));
+            Role pr_approver = new Role(null, "PR_APPROVER", Arrays.asList("CREATE_PR", "VIEW_PR"));
+            Role po_requester = new Role(null, "PO_REQUESTER", Arrays.asList("CREATE_PO", "VIEW_PR"));
+            Role po_approver = new Role(null, "PO_APPROVER", Arrays.asList("CREATE_PO", "VIEW_PR"));
+            roleRepository.saveAll(Arrays.asList(admin, pr_requester, pr_approver, po_requester, po_approver));
         }
 
         // Seed Branch

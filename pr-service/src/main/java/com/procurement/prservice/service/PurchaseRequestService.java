@@ -35,7 +35,7 @@ public class PurchaseRequestService {
             line.setLineAmount(amount);
         }
 
-        pr.setPrNumber("PR2025" + UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        pr.setPrNumber("PR2026" + UUID.randomUUID().toString().substring(0, 6).toUpperCase());
         pr.setRequisitionDate(new Date());
         pr.setCreatedAt(new Date());
         pr.setRequestorId(requestorId);
