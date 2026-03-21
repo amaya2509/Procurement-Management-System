@@ -18,7 +18,7 @@ COPY pr-service/src ./pr-service/src
 RUN mvn -pl pr-service -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /app/pr-service/target/*.jar app.jar

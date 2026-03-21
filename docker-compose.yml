@@ -1,4 +1,4 @@
-version: '3.9'
+# version: '3.9' (Obsolete)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Procurement Management System — Docker Compose
@@ -128,7 +128,7 @@ services:
     environment:
       EUREKA_INSTANCE_HOSTNAME: eureka-server
     healthcheck:
-      test: ["CMD", "sh", "-c", "wget -q --spider http://localhost:8761/actuator/health || exit 1"]
+      test: ["CMD", "sh", "-c", "wget -q --spider http://localhost:8761/ || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 8

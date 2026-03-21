@@ -18,7 +18,7 @@ COPY po-service/src ./po-service/src
 RUN mvn -pl po-service -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /app/po-service/target/*.jar app.jar

@@ -18,7 +18,7 @@ COPY approval-service/src ./approval-service/src
 RUN mvn -pl approval-service -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /app/approval-service/target/*.jar app.jar
