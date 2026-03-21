@@ -11,6 +11,7 @@ import com.procurement.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Configuration
 @RequiredArgsConstructor
+@Profile("!test")
 public class DataSeeder implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
@@ -53,9 +55,12 @@ public class DataSeeder implements CommandLineRunner {
 
         // Seed Admin User
         if (userRepository.count() == 0) {
-            Optional<Role> adminRoleOpt = roleRepository.findAll().stream().filter(r -> "ADMIN".equals(r.getRoleName())).findFirst();
-            Optional<Branch> hqOpt = branchRepository.findAll().stream().filter(b -> "Headquarters".equals(b.getBranchName())).findFirst();
-            Optional<Department> adminDeptOpt = departmentRepository.findAll().stream().filter(d -> "Administration".equals(d.getDepartmentName())).findFirst();
+            Optional<Role> adminRoleOpt = roleRepository.findAll().stream().filter(r -> "ADMIN".equals(r.getRoleName()))
+                    .findFirst();
+            Optional<Branch> hqOpt = branchRepository.findAll().stream()
+                    .filter(b -> "Headquarters".equals(b.getBranchName())).findFirst();
+            Optional<Department> adminDeptOpt = departmentRepository.findAll().stream()
+                    .filter(d -> "Administration".equals(d.getDepartmentName())).findFirst();
 
             if (adminRoleOpt.isPresent() && hqOpt.isPresent() && adminDeptOpt.isPresent()) {
                 User adminUser = User.builder()
