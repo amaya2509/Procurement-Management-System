@@ -15,8 +15,7 @@ COPY approval-service/pom.xml ./approval-service/pom.xml
 COPY common-library/pom.xml ./common-library/pom.xml
 COPY common-library/src ./common-library/src
 COPY pr-service/src ./pr-service/src
-RUN mvn -pl common-library install -DskipTests --no-transfer-progress
-RUN mvn -pl pr-service package -DskipTests --no-transfer-progress
+RUN mvn -pl pr-service -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jre-alpine

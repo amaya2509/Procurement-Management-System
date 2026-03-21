@@ -16,8 +16,7 @@ COPY approval-service/pom.xml ./approval-service/pom.xml
 COPY common-library/pom.xml ./common-library/pom.xml
 COPY common-library/src ./common-library/src
 COPY eureka-server/src ./eureka-server/src
-RUN mvn -pl common-library install -DskipTests --no-transfer-progress
-RUN mvn -pl eureka-server package -DskipTests --no-transfer-progress
+RUN mvn -pl eureka-server -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
 FROM eclipse-temurin:17-jre-alpine
