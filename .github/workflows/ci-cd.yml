@@ -35,13 +35,8 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      - name: Build common-library
-        run: mvn -pl common-library install --no-transfer-progress
-
       - name: Build and test all services
-        run: |
-          mvn -pl eureka-server,api-gateway,user-service,supplier-service,pr-service,po-service,approval-service \
-              package --no-transfer-progress
+        run: mvn package --no-transfer-progress
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
