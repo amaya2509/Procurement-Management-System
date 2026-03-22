@@ -6,7 +6,7 @@ spring:
     name: po-service
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://localhost:27017/po_db}
+      uri: ${MONGO_URI:mongodb://localhost:27020/po_db?w=1}
 
 eureka:
   client:

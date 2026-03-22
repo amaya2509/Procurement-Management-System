@@ -18,7 +18,7 @@ COPY supplier-service/src ./supplier-service/src
 RUN mvn -pl supplier-service -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /app/supplier-service/target/*.jar app.jar

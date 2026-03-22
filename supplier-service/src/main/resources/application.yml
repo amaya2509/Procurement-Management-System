@@ -6,7 +6,7 @@ spring:
     name: supplier-service
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://localhost:27017/supplier_db}
+      uri: ${MONGO_URI:mongodb://localhost:27018/supplier_db?w=1}
 
 eureka:
   client:

@@ -19,7 +19,7 @@ COPY eureka-server/src ./eureka-server/src
 RUN mvn -pl eureka-server -am package -DskipTests --no-transfer-progress
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /app/eureka-server/target/*.jar app.jar
