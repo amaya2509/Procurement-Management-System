@@ -131,9 +131,6 @@ jobs:
           - service: approval-service
             dockerfile: approval-service/Dockerfile
             context: .
-          - service: frontend
-            dockerfile: frontend/Dockerfile
-            context: ./frontend
 
     steps:
       - name: Checkout code
