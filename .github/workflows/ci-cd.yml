@@ -36,9 +36,11 @@ jobs:
           cache: maven
 
       - name: Build, Test & Sonar Scan
-        run: mvn clean verify sonar:sonar --no-transfer-progress
-        env:
-          SONAR_TOKEN: ${{ secrets.PROCUREMENT }}
+        run: mvn clean verify sonar:sonar \
+          -Dsonar.projectKey=RakinduM_Procurement-Management-System \
+          -Dsonar.organization=rakindum \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.PROCUREMENT }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
